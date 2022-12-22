@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "524017728374",
+    "project_id": "cosialla-v3",
+    "storage_bucket": "cosialla-v3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:524017728374:android:9cf8afd664cd6613a0d857",
+        "android_client_info": {
+          "package_name": "com.example.cosialla"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "524017728374-3nth1e1s1998r3nuri8c19uvbqimk4dg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzuFcXTrnsV3hZehQXddhbif1rSucGYgs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "524017728374-3nth1e1s1998r3nuri8c19uvbqimk4dg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
