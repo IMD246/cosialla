@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -7,7 +9,6 @@ import '../interface_repository/user_profile_repository.dart';
 
 class RemoteUserProfileRepository implements UserProfileRepository {
   late CollectionReference firebaseUserProfileDoc;
-
   RemoteUserProfileRepository() {
     firebaseUserProfileDoc =
         FirebaseFirestore.instance.collection('userProfile');
@@ -78,12 +79,10 @@ class RemoteUserProfileRepository implements UserProfileRepository {
       try {
         return await firebaseUserProfileDoc.doc(userID).get().then(
           (value) async {
+            if (value.exists && value.id.isNotEmpty) {
+              return _parsedToUserProfile(value: value.data());
+            }
             return null;
-            // if (value.exists) {
-            //   return UserProfile.fromMap(doc: value.data());
-            // } else {
-            //   return null;
-            // }
           },
         );
       } catch (_) {
@@ -106,5 +105,14 @@ class RemoteUserProfileRepository implements UserProfileRepository {
     } catch (e) {
       return false;
     }
+  }
+
+  UserProfile _parsedToUserProfile({required Object? value}) {
+    final convertToMap = json.decode(
+      json.encode(
+        value,
+      ),
+    ) as Map<String, dynamic>;
+    return UserProfile.fromMap(convertToMap);
   }
 }

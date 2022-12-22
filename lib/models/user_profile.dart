@@ -1,9 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-import '../repositories/constants/user_profile_field_constants.dart';
 
 class UserProfile {
   final String id;
@@ -18,7 +13,7 @@ class UserProfile {
     return <String, dynamic>{
       'id': id,
       'email': email,
-      'fullName': fullName,
+      'full_name': fullName,
     };
   }
 
@@ -26,11 +21,12 @@ class UserProfile {
     return UserProfile(
       id: map['id'] as String,
       email: map['email'] as String,
-      fullName: map['fullName'] as String,
+      fullName: map['full_name'] as String,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory UserProfile.fromJson(String source) => UserProfile.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory UserProfile.fromJson(String source) =>
+      UserProfile.fromMap(json.decode(source) as Map<String, dynamic>);
 }

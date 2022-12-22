@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:social_ui_kit/helpers/loading/loading_screen_controller.dart';
+
+import 'loading_screen_controller.dart';
 
 class LoadingScreen {
   factory LoadingScreen() => _shared;

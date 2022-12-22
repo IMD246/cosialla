@@ -6,8 +6,10 @@ import '../interface_repository/user_presence_repository.dart';
 
 class RemoteUserPresenceRepository extends UserPresenceRepository {
   late DatabaseReference databaseUserPresenceRef;
-  RemoteUserPresenceRepository({required String refName}) {
-    databaseUserPresenceRef = FirebaseDatabase.instance.ref(refName);
+  RemoteUserPresenceRepository() {
+    databaseUserPresenceRef = FirebaseDatabase.instance.ref(
+      UserPresenceFieldConstants.collectionName,
+    );
   }
   @override
   Future<UserPresence> getUserPresenceById({required String userID}) async {

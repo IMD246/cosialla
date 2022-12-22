@@ -32,9 +32,9 @@ class EmojiPickerTextField extends StatelessWidget {
       child: SizedBox(
         height: 250,
         child: EmojiPicker(
-          onEmojiSelected: (Category category, Emoji emoji) {
-            _onEmojiSelected(emoji);
-          },
+          // onEmojiSelected: (Category category, Emoji emoji) {
+          //   _onEmojiSelected(emoji);
+          // },
           onBackspacePressed: _onBackspacePressed,
           config: Config(
             columns: 7,
@@ -47,7 +47,7 @@ class EmojiPickerTextField extends StatelessWidget {
             indicatorColor: Colors.blue,
             iconColor: Colors.grey,
             iconColorSelected: Colors.blue,
-            progressIndicatorColor: Colors.blue,
+            // progressIndicatorColor: Colors.blue,
             backspaceColor: Colors.blue,
             skinToneDialogBgColor: Colors.white,
             skinToneIndicatorColor: Colors.grey,

@@ -1,32 +1,44 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-
 class FirebaseAuthProvider {
-  final FirebaseAuth authUser = FirebaseAuth.instance;
+  static FirebaseAuthProvider? instance = FirebaseAuthProvider._();
+
+  FirebaseAuthProvider._();
+
+  factory FirebaseAuthProvider.getInstance() {
+    if (instance == null) {
+      instance = FirebaseAuthProvider._();
+    }
+    return instance!;
+  }
+
+  final FirebaseAuth _authUser = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: <String>[
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
+
   Future<void> logout() async {
     final user = currentUser;
     if (user != null) {
-      await authUser.signOut();
+      await _authUser.signOut();
+      await _googleSignIn.signOut();
     }
   }
 
   Future<User?> signInWithGoogle() async {
-    final GoogleSignIn googleSignIn = GoogleSignIn(
-      scopes: <String>[
-        'email',
-        'https://www.googleapis.com/auth/contacts.readonly',
-      ],
-    );
     final GoogleSignInAccount? googleSignInAccount =
-        await googleSignIn.signIn();
+        await _googleSignIn.signIn();
     final GoogleSignInAuthentication? googleSignAuth =
         await googleSignInAccount?.authentication;
     final AuthCredential authCredential = GoogleAuthProvider.credential(
       accessToken: googleSignAuth!.accessToken,
       idToken: googleSignAuth.idToken,
     );
-    await authUser.signInWithCredential(authCredential);
+    await _authUser.signInWithCredential(authCredential);
     final user = currentUser;
     return user;
   }

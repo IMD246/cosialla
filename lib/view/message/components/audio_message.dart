@@ -20,15 +20,15 @@ class _AudioMessasgeState extends State<AudioMessasge> {
   Duration duration = Duration.zero;
   Duration position = Duration.zero;
   Future setAudio() async {
-    audioPlayer.setReleaseMode(ReleaseMode.LOOP);
-    audioPlayer.setUrl(widget.chatMessage.urlAudio, isLocal: true);
+    // audioPlayer.setReleaseMode(ReleaseMode.LOOP);
+    // audioPlayer.setUrl(widget.chatMessage.urlAudio, isLocal: true);
   }
 
   @override
   void initState() {
     super.initState();
     setState(() {
-      audioPlayer.setUrl(widget.chatMessage.urlAudio);
+      // audioPlayer.setUrl(widget.chatMessage.urlAudio);
     });
     audioPlayer.onDurationChanged.listen((newDuration) {
       setState(() {
@@ -37,14 +37,14 @@ class _AudioMessasgeState extends State<AudioMessasge> {
     });
     audioPlayer.onPlayerStateChanged.listen((state) {
       setState(() {
-        isPlaying = state == PlayerState.PLAYING;
+        // isPlaying = state == PlayerState.PLAYING;
       });
     });
-    audioPlayer.onAudioPositionChanged.listen((newPosition) {
-      setState(() {
-        position = newPosition;
-      });
-    });
+    // audioPlayer.onAudioPositionChanged.listen((newPosition) {
+    //   setState(() {
+    //     position = newPosition;
+    //   });
+    // });
   }
 
   @override
@@ -70,7 +70,7 @@ class _AudioMessasgeState extends State<AudioMessasge> {
               if (isPlaying) {
                 await audioPlayer.pause();
               } else {
-                await audioPlayer.play(widget.chatMessage.urlAudio);
+                // await audioPlayer.play(widget.chatMessage.urlAudio);
               }
             },
             child: Icon(
