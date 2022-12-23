@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'loading_screen_controller.dart';
 
@@ -34,6 +35,7 @@ class LoadingScreen {
     required BuildContext context,
     required String text,
   }) {
+    // ignore: no_leading_underscores_for_local_identifiers
     final _text = StreamController<String>();
     _text.add(text);
 
@@ -53,26 +55,29 @@ class LoadingScreen {
                   minWidth: size.width * 0.5,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10.0),
+                  borderRadius: BorderRadius.circular(10.0.w),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(16.0.w),
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const SizedBox(height: 10),
-                        const CircularProgressIndicator(),
-                        const SizedBox(height: 20),
+                        SizedBox(height: 10.h),
+                        const CircularProgressIndicator(
+                          color: Colors.red,
+                        ),
+                        SizedBox(height: 20.h),
                         StreamBuilder(
                           stream: _text.stream,
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               return Text(
                                 snapshot.data as String,
-                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                ),
                               );
                             } else {
                               return Container();

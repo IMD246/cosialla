@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../bloc/LoginBloc/auth_bloc.dart';
 import '../../models/user_profile.dart';
+import '../../services/firebase_auth_provider.dart';
 import '../../theme/colors.dart';
 import 'components/body_profile_page.dart';
 import 'components/setting_profile.dart';
@@ -25,7 +29,7 @@ class _ProfilePageState extends State<ProfilePage>
       backgroundColor: white,
       appBar: PreferredSize(
         child: getAppBar(),
-        preferredSize: Size.fromHeight(180),
+        preferredSize: Size.fromHeight(180.h),
       ),
       body: BodyProfilePage(
         userProfile: widget.userProfile,
@@ -34,6 +38,8 @@ class _ProfilePageState extends State<ProfilePage>
   }
 
   Widget getAppBar() {
+    FirebaseAuthProvider firebaseAuthProvider =
+        FirebaseAuthProvider.getInstance();
     return AppBar(
       elevation: 0,
       backgroundColor: primaryLight,
@@ -43,10 +49,16 @@ class _ProfilePageState extends State<ProfilePage>
             Align(
               alignment: Alignment.topRight,
               child: Container(
-                margin: const EdgeInsets.only(top: 8.0, right: 12.0),
+                margin: EdgeInsets.only(top: 8.0.h, right: 12.0.w),
                 child: IconButton(
-                  onPressed: () {
-                    SettingProfile(context);
+                  onPressed: () async {
+                    await SettingProfile(context, widget.userProfile,
+                            context.read<AuthBloc>())
+                        .then((value) {
+                      if (firebaseAuthProvider.currentUser == null) {
+                        Navigator.popUntil(context, (route) => false);
+                      }
+                    });
                   },
                   icon: Icon(Icons.menu),
                 ),
@@ -57,37 +69,40 @@ class _ProfilePageState extends State<ProfilePage>
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Container(
-                  //   width: 75,
-                  //   height: 75,
-                  //   child: Center(
-                  //     child: Container(
-                  //       width: 70,
-                  //       height: 70,
-                  //       decoration: BoxDecoration(
-                  //         borderRadius: BorderRadius.circular(30),
-                  //         image: DecorationImage(
-                  //           image: widget.userProfile.urlImage.isNotEmpty
-                  //               ? NetworkImage(
-                  //                   widget.userProfile.urlImage,
-                  //                 )
-                  //               : Image.asset("assets/images/defaultImage.png")
-                  //                   .image,
-                  //           fit: BoxFit.cover,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
+                  Container(
+                    width: 75.w,
+                    height: 75.h,
+                    child: Center(
+                      child: Container(
+                        width: 70.w,
+                        height: 70.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30.w),
+                          image: DecorationImage(
+                            image: widget.userProfile.urlImage != null
+                                ? NetworkImage(
+                                    widget.userProfile.urlImage ?? "",
+                                  )
+                                : Image.asset("assets/images/defaultImage.png")
+                                    .image,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   SizedBox(
-                    height: 10,
+                    height: 10.h,
                   ),
                   Text(
                     widget.userProfile.fullName,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 10.h,
                   ),
                   Text(
                     "@" + widget.userProfile.email.split('@').first.toString(),

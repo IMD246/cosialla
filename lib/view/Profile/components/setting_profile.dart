@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 
-Future<void> SettingProfile(BuildContext context) {
-  return showModalBottomSheet<void>(
+import '../../../bloc/LoginBloc/auth_bloc.dart';
+import '../../../bloc/LoginBloc/auth_event.dart';
+import '../../../models/user_profile.dart';
+
+Future<dynamic> SettingProfile(
+  BuildContext context,
+  UserProfile userProfile,
+  AuthBloc authBloc,
+) {
+  return showModalBottomSheet<bool>(
     constraints: BoxConstraints(
       maxHeight: MediaQuery.of(context).size.height / 2,
     ),
@@ -13,7 +21,7 @@ Future<void> SettingProfile(BuildContext context) {
     ),
     backgroundColor: Colors.white,
     context: context,
-    builder: (BuildContext context) {
+    builder: (BuildContext c) {
       return Container(
         margin: const EdgeInsets.only(top: 14, left: 20, right: 20),
         child: Column(
@@ -38,8 +46,12 @@ Future<void> SettingProfile(BuildContext context) {
             Divider(),
             ListTile(
               onTap: () {
-                Navigator.pop(context);
-                // context.read<AuthBloc>().add(AuthEventLogout());
+                authBloc.add(
+                  AuthEventLogout(
+                    userProfile: userProfile,
+                  ),
+                );
+                Navigator.of(c).pop();
               },
               leading: Icon(Icons.logout),
               title: const Text("Đăng xuất"),

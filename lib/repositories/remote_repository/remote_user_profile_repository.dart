@@ -21,6 +21,7 @@ class RemoteUserProfileRepository implements UserProfileRepository {
           UserProfileFieldConstants.idUserField: user?.uid,
           UserProfileFieldConstants.emailField: user?.email,
           UserProfileFieldConstants.fullNameField: user?.displayName,
+          UserProfileFieldConstants.urlImageField: "",
           UserProfileFieldConstants.isEmailVerifiedField: user?.emailVerified,
           UserProfileFieldConstants.userMessagingTokenField: ""
         };
@@ -80,12 +81,12 @@ class RemoteUserProfileRepository implements UserProfileRepository {
         return await firebaseUserProfileDoc.doc(userID).get().then(
           (value) async {
             if (value.exists && value.id.isNotEmpty) {
-              return _parsedToUserProfile(value: value.data());
+              return _parsedObjectToUserProfile(value: value.data());
             }
             return null;
           },
         );
-      } catch (_) {
+        } catch (_) {
         return null;
         // throw FailedQueryData();
       }
@@ -107,7 +108,7 @@ class RemoteUserProfileRepository implements UserProfileRepository {
     }
   }
 
-  UserProfile _parsedToUserProfile({required Object? value}) {
+  UserProfile _parsedObjectToUserProfile({required Object? value}) {
     final convertToMap = json.decode(
       json.encode(
         value,

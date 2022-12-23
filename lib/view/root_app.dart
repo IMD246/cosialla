@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../models/user_profile.dart';
 import '../theme/colors.dart';
@@ -62,7 +63,7 @@ class _RootAppState extends State<RootApp> {
     return BottomAppBar(
       color: Colors.white,
       child: Container(
-        height: 64,
+        height: 64.h,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -77,7 +78,7 @@ class _RootAppState extends State<RootApp> {
               },
               child: Icon(
                 Icons.home,
-                size: 25,
+                size: 25.h,
                 color: activeTab == 0 ? primary : black,
               ),
             ),
@@ -92,7 +93,7 @@ class _RootAppState extends State<RootApp> {
               },
               child: Icon(
                 Icons.messenger_outlined,
-                size: 22,
+                size: 22.h,
                 color: activeTab == 1 ? primary : black,
               ),
             ),
@@ -110,7 +111,7 @@ class _RootAppState extends State<RootApp> {
               },
               child: Icon(
                 Icons.favorite,
-                size: 25,
+                size: 25.h,
                 color: activeTab == 3 ? primary : black,
               ),
             ),
@@ -125,7 +126,7 @@ class _RootAppState extends State<RootApp> {
               },
               child: Icon(
                 Icons.account_circle_rounded,
-                size: 25,
+                size: 25.h,
                 color: activeTab == 4 ? primary : black,
               ),
             ),
@@ -149,8 +150,8 @@ class _RootAppState extends State<RootApp> {
       child: Transform.rotate(
         angle: -math.pi / 4,
         child: Container(
-          width: 60,
-          height: 60,
+          width: 60.w,
+          height: 60.h,
           decoration: BoxDecoration(boxShadow: [
             BoxShadow(
               color: grey.withOpacity(0.3),
@@ -165,7 +166,7 @@ class _RootAppState extends State<RootApp> {
               child: Icon(
                 Icons.add_rounded,
                 color: white,
-                size: 26,
+                size: 26.h,
               ),
             ),
           ),
