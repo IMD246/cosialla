@@ -30,12 +30,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEventInitialize>(
       (event, emit) async {
         try {
-          emit(
-            AuthStateLoggedOut(isLoading: true),
-          );
           //Get current user from FirebaseAuth
           final getCurrentUser = await firebaseAuthProvider.currentUser;
           if (getCurrentUser != null) {
+            emit(
+              AuthStateLoggedOut(isLoading: true),
+            );
             //get User from cloud firestore
             var userProfile =
                 await remoteUserProfileRepository.getUserProfileById(
