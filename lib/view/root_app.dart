@@ -48,9 +48,7 @@ class _RootAppState extends State<RootApp> {
         // ChatPage(
         //   userProfile: widget.userProfile,
         // ),
-        UploadPostPage(
-          userProfile: widget.userProfile,
-        ),
+        // ,
         SavedPage(),
         ProfilePage(
           userProfile: widget.userProfile,
@@ -102,9 +100,9 @@ class _RootAppState extends State<RootApp> {
             ),
             InkWell(
               onTap: () {
-                if (activeTab != 3) {
+                if (activeTab != 2) {
                   setState(() {
-                    activeTab = 3;
+                    activeTab = 2;
                     pageController.jumpToPage(activeTab);
                   });
                 }
@@ -117,9 +115,9 @@ class _RootAppState extends State<RootApp> {
             ),
             InkWell(
               onTap: () {
-                if (activeTab != 4) {
+                if (activeTab != 3) {
                   setState(() {
-                    activeTab = 4;
+                    activeTab = 3;
                     pageController.jumpToPage(activeTab);
                   });
                 }
@@ -142,10 +140,15 @@ class _RootAppState extends State<RootApp> {
   Widget getFloatingButton() {
     return GestureDetector(
       onTap: () {
-        setState(() {
-          activeTab = 2;
-          pageController.jumpToPage(activeTab);
-        });
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) {
+              return UploadPostPage(
+                userProfile: widget.userProfile,
+              );
+            },
+          ),
+        );
       },
       child: Transform.rotate(
         angle: -math.pi / 4,
