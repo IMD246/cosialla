@@ -27,7 +27,6 @@ class _UploadPostPageState extends State<UploadPostPage> {
   List<Media> listMedia = [];
   @override
   Widget build(BuildContext context) {
-    log(listMedia.length.toString());
     // final getFocus = FocusScope.of(context).unfocus();
     return Scaffold(
       appBar: _buildAppbar(),
@@ -187,7 +186,9 @@ class _UploadPostPageState extends State<UploadPostPage> {
           children: [
             InkWell(
               onTap: () async {
-                await _openMediaPicker(context);
+                await _openMediaPicker(context).then((value) {
+                  log(value.toString());
+                });
               },
               child: Icon(
                 Icons.photo,
@@ -248,11 +249,11 @@ class _UploadPostPageState extends State<UploadPostPage> {
     );
   }
 
-  Future<void> _openMediaPicker(BuildContext context) async {
+  Future<dynamic> _openMediaPicker(BuildContext context) async {
     // openCamera(onCapture: (image){
     //   setState(()=> mediaList = [image]);
     // });
-    showModalBottomSheet(
+    return await showModalBottomSheet(
       context: context,
       builder: (context) {
         return MediaPicker(
@@ -261,9 +262,9 @@ class _UploadPostPageState extends State<UploadPostPage> {
             setState(() {
               listMedia = selectedList;
             });
-            Navigator.pop(context);
+            return Navigator.of(context).pop("check");
           },
-          onCancel: () => Navigator.pop(context),
+          onCancel: () => Navigator.of(context).pop("null"),
           mediaCount: MediaCount.multiple,
           mediaType: MediaType.all,
           decoration: PickerDecoration(

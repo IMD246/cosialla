@@ -1,50 +1,41 @@
-// import 'dart:core';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:convert';
 
 class Post {
-  String id;
-  String contents;
-  String image;
-  Timestamp date;
-  dynamic loves = [];
-  dynamic comments = [];
+  final String id;
+  final String content;
+  final String userID;
+  DateTime date;
   int type;
-  String user;
   Post({
     required this.id,
-    required this.contents,
-    required this.image,
+    required this.content,
     required this.date,
-    required this.loves,
-    required this.comments,
     required this.type,
-    required this.user,
+    required this.userID,
   });
 
-  factory Post.fromJson(Map<dynamic, dynamic> json, String id) => Post(
-      id: id,
-      contents: json['contents'],
-      image: json['image'],
-      date: json['date_submit'],
-      loves: json['loves'],
-      comments: json['comments'],
-      type: json['type'],
-      user: json['user']);
-
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'contents': this.contents,
-        'image': this.image,
-        'date_submit': this.date,
-        'loves': this.loves,
-        'commnets': this.comments,
-        'type': this.type,
-        'user': this.user
-      };
-
-  factory Post.fromSnapshot(DocumentSnapshot snapshot) {
-    Post newPost =
-        Post.fromJson(snapshot.data() as Map<String, dynamic>, snapshot.id);
-    return newPost;
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'content': content,
+      'userID': userID,
+      'date': date.millisecondsSinceEpoch,
+      'type': type,
+    };
   }
+
+  factory Post.fromMap(Map<String, dynamic> map) {
+    return Post(
+      id: map['id'] as String,
+      content: map['content'] as String,
+      userID: map['userID'] as String,
+      date: DateTime.fromMillisecondsSinceEpoch(map['date'] as int),
+      type: map['type'] as int,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Post.fromJson(String source) =>
+      Post.fromMap(json.decode(source) as Map<String, dynamic>);
 }

@@ -20,20 +20,25 @@ class RemoteStorageRepository implements StorageRepository {
   }
 
   @override
-  Future<bool> uploadFile({
-    required String filePath,
-    required String fileName,
-    required File file,
-  }) async {
+  Future<void> uploadMultipleFile(
+      {required List<PlatformFile> listFile, required String path}) {
+    // TODO: implement uploadMultipleFile
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> uploadFile(
+      {required File file,
+      required String filePath,
+      required String fileName,
+      SettableMetadata? settableMetaData}) async {
     try {
       final refPath = "$filePath/$fileName";
       await storage
           .ref(refPath)
           .putFile(
             file,
-            SettableMetadata(
-              contentType: 'image/jpeg,',
-            ),
+            settableMetaData,
           )
           .then(
         (p0) async {
@@ -52,12 +57,5 @@ class RemoteStorageRepository implements StorageRepository {
       // );
     }
     return false;
-  }
-
-  @override
-  Future<void> uploadMultipleFile(
-      {required List<PlatformFile> listFile, required String path}) {
-    // TODO: implement uploadMultipleFile
-    throw UnimplementedError();
   }
 }

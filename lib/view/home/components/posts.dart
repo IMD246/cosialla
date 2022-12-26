@@ -1,10 +1,10 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../../models/post.dart';
 import '../../../theme/colors.dart';
-import 'check_data_user_content.dart';
-import 'image_post.dart';
 
 class Posts extends StatelessWidget {
   const Posts({
@@ -31,7 +31,7 @@ class Posts extends StatelessWidget {
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             children: list.map((data) {
-              final post = Post.fromSnapshot(data);
+              final post = Post.fromMap(jsonDecode(jsonEncode(data.data())) as Map<String,dynamic>);
               return Container(
                 margin: const EdgeInsets.only(bottom: 25),
                 decoration: BoxDecoration(
@@ -51,18 +51,18 @@ class Posts extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       //user and content
-                      UserAndContentPost(
-                        date: post.date,
-                        content: post.contents,
-                        user: post.user,
-                      ),
+                      // UserAndContentPost(
+                      //   date: post.date,
+                      //   content: post.contents,
+                      //   user: post.user,
+                      // ),
                       const SizedBox(
                         height: 12,
                       ),
                       //img post
-                      PostImage(
-                        urlImage: post.image,
-                      ),
+                      // PostImage(
+                      //   urlImage: post.image,
+                      // ),
                       //Like & comment & share
                       // Container(
                       //   margin: EdgeInsets.only(top: 12),

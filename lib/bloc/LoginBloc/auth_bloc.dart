@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../repositories/constants/user_profile_field_constants.dart';
@@ -149,6 +150,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 file: File(
                   getFile ?? "",
                 ),
+                settableMetaData: SettableMetadata(contentType: 'image/jpeg,'),
               );
               final getUrlImageFromStorage =
                   await remoteStorageRepository.getFile(

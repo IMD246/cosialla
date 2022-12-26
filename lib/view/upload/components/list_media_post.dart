@@ -25,7 +25,6 @@ class _ListMediaPostState extends State<ListMediaPost> {
       ),
       itemBuilder: (context, index) {
         final mediaItem = widget.listMedia.elementAt(index);
-
         return Stack(
           fit: StackFit.expand,
           children: [
