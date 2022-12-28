@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 class PostMedia {
+  final String? id;
   final String nameFile;
   String? url;
   final String type;
   final DateTime stampTime;
-  PostMedia({
+  PostMedia( {
+    this.id,
     this.url,
     required this.type,
     required this.nameFile,

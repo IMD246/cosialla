@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:media_picker_widget/media_picker_widget.dart';
 import 'package:video_player/video_player.dart';
+
+import '../../../bloc/uploadPostBloc/upload_post_bloc.dart';
+import '../../../bloc/uploadPostBloc/upload_post_event.dart';
 
 class ListMediaPost extends StatefulWidget {
   const ListMediaPost({super.key, required this.listMedia});
@@ -33,9 +37,11 @@ class _ListMediaPostState extends State<ListMediaPost> {
               right: 0,
               child: GestureDetector(
                 onTap: () {
-                  setState(() {
-                    widget.listMedia.removeAt(index);
-                  });
+                  context.read<UploadPostBloc>().add(
+                        DeleteItemMediaEvent(
+                          index: index,
+                        ),
+                      );
                 },
                 child: Icon(
                   Icons.close,

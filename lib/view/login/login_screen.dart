@@ -35,9 +35,6 @@ class _LoginScreenState extends State<LoginScreen> {
         ],
       ),
     );
-    //  return RootApp(
-    //   userProfile: state.userProfile,
-    // );
   }
 }
 

@@ -19,9 +19,14 @@ class RemotePostMediaRepository implements PostMediaRepository {
   Future<void> createPostMedia({
     required String postMediaId,
     required Map<String, dynamic> mapPostMedia,
+    required String postId,
   }) async {
     try {
-      await firebasePostMediaDoc.doc(postMediaId).set(mapPostMedia);
+      await firebasePostMediaDoc
+          .doc(postId)
+          .collection("media")
+          .doc(postMediaId)
+          .set(mapPostMedia);
     } catch (e) {
       print(e.toString());
     }

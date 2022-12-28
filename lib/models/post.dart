@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 class Post {
-  final String id;
+  String? id;
   final String content;
   final String userID;
   DateTime date;
   int type;
   Post({
-    required this.id,
+    this.id,
     required this.content,
     required this.date,
     required this.type,

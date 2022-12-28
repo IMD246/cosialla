@@ -150,7 +150,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 file: File(
                   getFile ?? "",
                 ),
-                settableMetaData: SettableMetadata(contentType: 'image/jpeg,'),
+                settableMetaData: SettableMetadata(
+                  contentType: 'image/jpeg,',
+                ),
               );
               final getUrlImageFromStorage =
                   await remoteStorageRepository.getFile(
