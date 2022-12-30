@@ -260,7 +260,7 @@ class _UploadPostScreenState extends State<UploadPostScreen> {
                               content: widget.textPost,
                               date: DateTime.now(),
                               type: 0,
-                              userID: widget.userProfile.id,
+                              userID: widget.userProfile.id!,
                             ),
                             listMedia: widget.listMedia,
                           ),

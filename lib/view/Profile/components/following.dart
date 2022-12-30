@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:social_ui_kit/services/UserProfileScreen/firebase/firebase_follow.dart';
-import 'package:social_ui_kit/theme/colors.dart';
-import 'package:social_ui_kit/view/Profile/components/body_profile_page.dart';
+
+import '../../../services/UserProfileScreen/firebase/firebase_follow.dart';
+import '../../../theme/colors.dart';
+import 'body_profile_page.dart';
 
 class Following extends StatelessWidget {
   const Following({
@@ -26,7 +27,7 @@ class Following extends StatelessWidget {
         ),
         FutureBuilder<List<String>?>(
           future: firebaseFollowers.getAllFollowing(
-              userID: widget.userProfile.id),
+              userID: widget.userProfile.id!),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Text(

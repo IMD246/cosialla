@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../models/user_profile.dart';
-import 'search_for_chat_card.dart';
+import '../../../models/user_profile.dart';
+import 'conversation_item.dart';
 
-class ListSearchForChat extends StatelessWidget {
-  const ListSearchForChat({
+class ListSearchConversation extends StatelessWidget {
+  const ListSearchConversation({
     Key? key,
     required this.listUserProfile,
     required this.ownerUserProfile,
@@ -19,7 +19,7 @@ class ListSearchForChat extends StatelessWidget {
       child: ListView.builder(
         itemCount: listUserProfile.length,
         itemBuilder: (context, index) {
-          return SearchForChatCard(
+          return ConversationItem(
             userProfile: listUserProfile.elementAt(index),
             ownerUserProfile: ownerUserProfile,
           );

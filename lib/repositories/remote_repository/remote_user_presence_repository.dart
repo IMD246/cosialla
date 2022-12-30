@@ -12,17 +12,22 @@ class RemoteUserPresenceRepository extends UserPresenceRepository {
     );
   }
   @override
-  Future<UserPresence> getUserPresenceById({required String userID}) async {
+  Future<UserPresence?> getUserPresenceById({required String userID}) async {
     return await databaseUserPresenceRef.child(userID).once().then(
       (event) {
-        final data = Map<String, dynamic>.from(event.snapshot.value as Map);
-        return UserPresence.fromMap(data);
+        if (event.snapshot.value != null) {
+          final data = Map<String, dynamic>.from(event.snapshot.value as Map);
+          return UserPresence.fromMap(data);
+        }
+        return null;
       },
     );
   }
 
   @override
-  Future<void> updatePresenceFieldById({required String userID}) async {
+  Future<void> updatePresenceFieldById({
+    required String userID,
+  }) async {
     Map<String, dynamic> presenceStatusTrue = {
       UserPresenceFieldConstants.presenceField: true,
       UserPresenceFieldConstants.stampTimeField: DateTime.now(),

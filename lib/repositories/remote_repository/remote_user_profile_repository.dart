@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:developer';
+import 'dart:isolate';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,47 +33,33 @@ class RemoteUserProfileRepository implements UserProfileRepository {
   }
 
   @override
-  Stream<Iterable<UserProfile>?> getAllUserProfileBySearchText(
-      {required String? searchText}) {
-    return Stream.empty();
-    // if (searchText?.isEmpty == true) {
-    //   final listUserProfile = firebaseUserProfileDoc.limit(20).snapshots().map(
-    //     (event) {
-    //       if (event.docs.isNotEmpty) {
-    //         return event.docs.map(
-    //           (e) {
-    //             return UserProfile.fromSnapshot(doc: e);
-    //           },
-    //         );
-    //       } else {
-    //         return null;
-    //       }
-    //     },
-    //   );
-    //   return listUserProfile;
-    // } else {
-    //   final String text = searchText! + "\uf8ff";
-    //   final listUserProfile = firebaseUserProfileDoc
-    //       .where(UserProfileFieldConstants.fullNameField, isGreaterThanOrEqualTo: searchText)
-    //       .where(UserProfileFieldConstants.fullNameField, isLessThanOrEqualTo: text)
-    //       .orderBy(UserProfileFieldConstants.fullNameField, descending: true)
-    //       .limit(20)
-    //       .snapshots()
-    //       .map(
-    //     (event) {
-    //       if (event.docs.isNotEmpty) {
-    //         return event.docs.map(
-    //           (e) {
-    //             return UserProfile.fromSnapshot(doc: e.);
-    //           },
-    //         );
-    //       } else {
-    //         return null;
-    //       }
-    //     },
-    //   );
-    //   return listUserProfile;
-    // }
+  Future<List<UserProfile>?> getAllUserProfileBySearchText(
+      {required String? searchText}) async {
+    final String text = searchText! + "\uf8ff";
+    return await firebaseUserProfileDoc
+        .orderBy(UserProfileFieldConstants.fullNameField, descending: true)
+        .where(UserProfileFieldConstants.fullNameField,
+            isGreaterThanOrEqualTo: searchText)
+        .where(UserProfileFieldConstants.fullNameField,
+            isLessThanOrEqualTo: text)
+        .get()
+        .then(
+      (value) async {
+        if (value.size == 0 && value.docs.isNotEmpty) {
+          return null;
+        }
+        final ReceivePort receivePort = ReceivePort();
+        final isolates = await Isolate.spawn(
+          _parsedListUserProfile,
+          [receivePort.sendPort, value.docs],
+        );
+        final data = (await receivePort.first) as List<UserProfile>?;
+        isolates.kill(
+          priority: Isolate.immediate,
+        );
+        return data;
+      },
+    );
   }
 
   @override
@@ -81,12 +69,15 @@ class RemoteUserProfileRepository implements UserProfileRepository {
         return await firebaseUserProfileDoc.doc(userID).get().then(
           (value) async {
             if (value.exists && value.id.isNotEmpty) {
-              return _parsedObjectToUserProfile(value: value.data());
+              return _parsedObjectToUserProfile(
+                value: value.data(),
+                id: userID,
+              );
             }
             return null;
           },
         );
-        } catch (_) {
+      } catch (_) {
         return null;
         // throw FailedQueryData();
       }
@@ -108,12 +99,50 @@ class RemoteUserProfileRepository implements UserProfileRepository {
     }
   }
 
-  UserProfile _parsedObjectToUserProfile({required Object? value}) {
+  UserProfile _parsedObjectToUserProfile(
+      {required Object? value, required String id}) {
     final convertToMap = json.decode(
       json.encode(
         value,
       ),
     ) as Map<String, dynamic>;
-    return UserProfile.fromMap(convertToMap);
+    return UserProfile.fromMap(convertToMap, id);
+  }
+
+  @override
+  Future<List<UserProfile>?> getAllUserProfile({required int? limit}) async {
+    return await firebaseUserProfileDoc.get().then(
+      (value) async {
+        if (value.size == 0 && value.docs.isNotEmpty) {
+          log("null me r");
+          return null;
+        }
+        final ReceivePort receivePort = ReceivePort();
+        final isolates = await Isolate.spawn(
+          _parsedListUserProfile,
+          [receivePort.sendPort, value.docs],
+        );
+        final data = (await receivePort.first) as List<UserProfile>?;
+        isolates.kill(
+          priority: Isolate.immediate,
+        );
+        return data;
+      },
+    );
+  }
+
+  void _parsedListUserProfile(List<dynamic> params) {
+    SendPort sendPort = params[0];
+    final listValues = params[1] as List<QueryDocumentSnapshot<Object?>>;
+    sendPort.send(
+      listValues
+          .map(
+            (e) => _parsedObjectToUserProfile(
+              value: e.data(),
+              id: e.id,
+            ),
+          )
+          .toList(),
+    );
   }
 }

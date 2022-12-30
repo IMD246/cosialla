@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../models/user_profile.dart';
 import '../theme/colors.dart';
 import 'Profile/profile_page.dart';
+import 'chat/conversation_page.dart';
 import 'home/home_page.dart';
 import 'saved_page.dart';
 import 'upload/upload_post_page.dart';
@@ -44,11 +45,9 @@ class _RootAppState extends State<RootApp> {
       controller: pageController,
       children: [
         HomePage(),
-        Container(),
-        // ChatPage(
-        //   userProfile: widget.userProfile,
-        // ),
-        // ,
+        ConversationPage(
+          userProfile: widget.userProfile,
+        ),
         SavedPage(),
         ProfilePage(
           userProfile: widget.userProfile,

@@ -7,8 +7,12 @@ abstract class UserProfileRepository {
 
   Future<UserProfile?> getUserProfileById({required String? userID});
 
-  Stream<Iterable<UserProfile>?> getAllUserProfileBySearchText(
+  Future<List<UserProfile>?> getAllUserProfileBySearchText(
       {required String? searchText});
+
+  Future<List<UserProfile>?> getAllUserProfile({
+    required int? limit
+  });
 
   Future<bool> updateUserProfile(
     Map<String, dynamic> mapUserProfile,

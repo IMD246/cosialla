@@ -2,14 +2,14 @@
 import 'dart:convert';
 
 class UserProfile {
-  final String id;
+  String? id;
   final String email;
   final String fullName;
   String? urlImage;
   String? messagingToken;
   bool isEmailVerified;
   UserProfile({
-    required this.id,
+    this.id,
     required this.email,
     required this.fullName,
     this.urlImage,
@@ -27,12 +27,12 @@ class UserProfile {
     };
   }
 
-  factory UserProfile.fromMap(Map<String, dynamic> map) {
+  factory UserProfile.fromMap(Map<String, dynamic> map, String id) {
     return UserProfile(
-      id: map['id_user'] as String,
-      email: map['email'] as String,
+      id: id,
+      email: map['email'],
       fullName: map['full_name'] as String,
-      urlImage: map['url_image'] != null ? map['url_image'] as String : null,
+      urlImage: map['url_image'] != null ? map['url_image'] : "",
       messagingToken: map['user_messaging_token'] != null
           ? map['user_messaging_token'] as String
           : null,
@@ -43,5 +43,10 @@ class UserProfile {
   String toJson() => json.encode(toMap());
 
   factory UserProfile.fromJson(String source) =>
-      UserProfile.fromMap(json.decode(source) as Map<String, dynamic>);
+      UserProfile.fromMap(json.decode(source) as Map<String, dynamic>, "");
+
+  @override
+  String toString() {
+    return 'UserProfile(id: $id, email: $email, fullName: $fullName, urlImage: $urlImage, messagingToken: $messagingToken, isEmailVerified: $isEmailVerified)';
+  }
 }

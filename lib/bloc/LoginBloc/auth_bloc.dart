@@ -57,7 +57,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             final getUrlImageFromStorage =
                 await remoteStorageRepository.getFile(
               filePath: userProfilePathName,
-              fileName: userProfile!.id,
+              fileName: userProfile!.id!,
             );
             if (getUrlImageFromStorage != null) {
               userProfile.urlImage = getUrlImageFromStorage;
@@ -135,7 +135,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             final getUrlImageFromStorage =
                 await remoteStorageRepository.getFile(
               filePath: userProfilePathName,
-              fileName: userProfile!.id,
+              fileName: userProfile!.id!,
             );
             if (getUrlImageFromStorage != null) {
               userProfile.urlImage = getUrlImageFromStorage;
@@ -157,7 +157,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               final getUrlImageFromStorage =
                   await remoteStorageRepository.getFile(
                 filePath: userProfilePathName,
-                fileName: userProfile.id,
+                fileName: userProfile.id!,
               );
               userProfile.urlImage = getUrlImageFromStorage;
             }
@@ -168,7 +168,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                   UserProfileFieldConstants.userMessagingTokenField:
                       tokenMessaging,
                 },
-                userProfile.id,
+                userProfile.id!,
               );
               userProfile.messagingToken = tokenMessaging;
             }

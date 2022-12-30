@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "524017728374",
+    "firebase_url": "https://cosialla-v3-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "cosialla-v3",
     "storage_bucket": "cosialla-v3.appspot.com"
   },
@@ -13,6 +14,22 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "524017728374-5c2ekt6k3m0t4b1th9thep2qjak3f4j3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cosialla",
+            "certificate_hash": "f9cf21e24226f91b19310618d3966101d884a5be"
+          }
+        },
+        {
+          "client_id": "524017728374-6p556n7otisfkbk6aee912m38nn0h5mc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cosialla",
+            "certificate_hash": "27ce79ed0bf914923123dda41a43c687972b5fd8"
+          }
+        },
         {
           "client_id": "524017728374-3nth1e1s1998r3nuri8c19uvbqimk4dg.apps.googleusercontent.com",
           "client_type": 3
@@ -29,6 +46,13 @@
             {
               "client_id": "524017728374-3nth1e1s1998r3nuri8c19uvbqimk4dg.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "524017728374-ilgo3ng272v1osjqu10iqcqd0hh5ilgc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.cosialla"
+              }
             }
           ]
         }
