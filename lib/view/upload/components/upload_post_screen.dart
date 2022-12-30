@@ -206,11 +206,13 @@ class _UploadPostScreenState extends State<UploadPostScreen> {
             InkWell(
               onTap: () async {
                 await _openMediaPicker(context).then((value) {
-                  c.read<UploadPostBloc>().add(
-                        UpdateListMediaEvent(
-                          listMedia: value,
-                        ),
-                      );
+                  if (value != null) {
+                    c.read<UploadPostBloc>().add(
+                          UpdateListMediaEvent(
+                            listMedia: value,
+                          ),
+                        );
+                  }
                 });
               },
               child: Icon(
